@@ -91,7 +91,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
@@ -353,11 +353,15 @@ require('lazy').setup({
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
         --
-        -- defaults = {
-        --   mappings = {
-        --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-        --   },
-        -- },
+        defaults = {
+          file_ignore_patterns = {
+            'node_modules',
+            'venv',
+          },
+          --   mappings = {
+          --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
+          --   },
+        },
         -- pickers = {}
         extensions = {
           ['ui-select'] = {
@@ -773,22 +777,118 @@ require('lazy').setup({
     end,
   },
 
-  { -- You can easily change to a different colorscheme.
-    -- Change the name of the colorscheme plugin below, and then
-    -- change the command in the config to whatever the name of that colorscheme is.
-    --
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'folke/tokyonight.nvim',
-    priority = 1000, -- Make sure to load this before all the other start plugins.
+  -- { -- You can easily change to a different colorscheme.
+  --   -- Change the name of the colorscheme plugin below, and then
+  --   -- change the command in the config to whatever the name of that colorscheme is.
+  --   --
+  --   -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
+  --   'folke/tokyonight.nvim',
+  --   priority = 1000, -- Make sure to load this before all the other start plugins.
+  --   init = function()
+  --     -- Load the colorscheme here.
+  --     -- Like many other themes, this one has different styles, and you could load
+  --     -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
+  --     vim.cmd.colorscheme 'tokyonight-night'
+  --
+  --     -- You can configure highlights by doing something like:
+  --     vim.cmd.hi 'Comment gui=none'
+  --   end,
+  -- },
+
+  {
+    'catppuccin/nvim',
+    name = 'catppuccin',
+    priority = 1000,
     init = function()
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
+      vim.cmd.colorscheme 'catppuccin-macchiato'
 
       -- You can configure highlights by doing something like:
       vim.cmd.hi 'Comment gui=none'
     end,
+
+    opts = {
+      term_colors = true,
+      transparent_background = false,
+      styles = {
+        comments = {},
+        conditionals = {},
+        loops = {},
+        functions = {},
+        keywords = {},
+        strings = {},
+        variables = {},
+        numbers = {},
+        booleans = {},
+        properties = {},
+        types = {},
+      },
+      highlight_overrides = {
+        all = function(colors)
+          return {
+            CurSearch = { bg = colors.sky },
+            IncSearch = { bg = colors.sky },
+            CursorLineNr = { fg = colors.blue, style = { 'bold' } },
+            DashboardFooter = { fg = colors.overlay0 },
+            TreesitterContextBottom = { style = {} },
+            WinSeparator = { fg = colors.overlay0, style = { 'bold' } },
+            ['@markup.italic'] = { fg = colors.blue, style = { 'italic' } },
+            ['@markup.strong'] = { fg = colors.blue, style = { 'bold' } },
+            Headline = { style = { 'bold' } },
+            Headline1 = { fg = colors.blue, style = { 'bold' } },
+            Headline2 = { fg = colors.pink, style = { 'bold' } },
+            Headline3 = { fg = colors.lavender, style = { 'bold' } },
+            Headline4 = { fg = colors.green, style = { 'bold' } },
+            Headline5 = { fg = colors.peach, style = { 'bold' } },
+            Headline6 = { fg = colors.flamingo, style = { 'bold' } },
+            rainbow1 = { fg = colors.blue, style = { 'bold' } },
+            rainbow2 = { fg = colors.pink, style = { 'bold' } },
+            rainbow3 = { fg = colors.lavender, style = { 'bold' } },
+            rainbow4 = { fg = colors.green, style = { 'bold' } },
+            rainbow5 = { fg = colors.peach, style = { 'bold' } },
+            rainbow6 = { fg = colors.flamingo, style = { 'bold' } },
+          }
+        end,
+      },
+      color_overrides = {
+        macchiato = {
+          rosewater = '#F5B8AB',
+          flamingo = '#F29D9D',
+          pink = '#AD6FF7',
+          mauve = '#FF8F40',
+          red = '#E66767',
+          maroon = '#EB788B',
+          peach = '#FAB770',
+          yellow = '#FACA64',
+          green = '#70CF67',
+          teal = '#4CD4BD',
+          sky = '#61BDFF',
+          sapphire = '#4BA8FA',
+          blue = '#00BFFF',
+          lavender = '#00BBCC',
+          text = '#C1C9E6',
+          subtext1 = '#A3AAC2',
+          subtext0 = '#8E94AB',
+          overlay2 = '#7D8296',
+          overlay1 = '#676B80',
+          overlay0 = '#464957',
+          surface2 = '#3A3D4A',
+          surface1 = '#2F313D',
+          surface0 = '#1D1E29',
+          base = '#0b0b12',
+          mantle = '#11111a',
+          crust = '#191926',
+        },
+      },
+      integrations = {
+        telescope = {
+          enabled = true,
+          style = 'nvchad',
+        },
+      },
+    },
   },
 
   -- Highlight todo, notes, etc in comments
@@ -863,6 +963,22 @@ require('lazy').setup({
       --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
     end,
   },
+  {
+    'iamcco/markdown-preview.nvim',
+    cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
+    ft = { 'markdown' },
+    config = function()
+      vim.g.mkdp_auto_start = true
+      vim.g.mkdp_open_to_the_world = true
+      -- vim.g.mkdp_open_ip = '192.168.0.186'
+      vim.g.mkdp_port = '5179'
+      vim.g.mkdp_echo_preview_url = true
+    end,
+    build = function()
+      vim.fn['mkdp#util#install']()
+    end,
+  },
+  { 'github/copilot.vim' },
 
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
@@ -874,11 +990,11 @@ require('lazy').setup({
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
   -- require 'kickstart.plugins.debug',
-  -- require 'kickstart.plugins.indent_line',
-  -- require 'kickstart.plugins.lint',
-  -- require 'kickstart.plugins.autopairs',
-  -- require 'kickstart.plugins.neo-tree',
-  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  require 'kickstart.plugins.indent_line',
+  require 'kickstart.plugins.lint',
+  require 'kickstart.plugins.autopairs',
+  require 'kickstart.plugins.neo-tree',
+  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
